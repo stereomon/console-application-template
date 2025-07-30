@@ -41,3 +41,21 @@ GitHub README.md: https://github.com/squizlabs/PHP_CodeSniffer
 |---- [Name of a vertical slice e.g. Customer]
 |-------- All to this vertical slice related files
 |- tests/ - Contains all test files and follows the default Codeception structure
+
+### SOLID
+
+Follows the SOLID principles which are
+- Single Responsibility
+- Open / Closed
+- Liskov Substitution
+- Interface segregation
+- Dependency Inversion
+
+### Data Transfer Objects
+
+Use DataTransfer objects as input and output arguments to class methods.
+
+
+### Testing
+
+Each class must be fully tested with happy cases and unhappy cases.
