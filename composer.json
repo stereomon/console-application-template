@@ -17,6 +17,7 @@
         "codeception/module-asserts": "^3.2",
         "codeception/lib-asserts": "^2.0",
         "phpstan/phpstan": "^1.10",
+        "phpunit/php-code-coverage": "^11.0",
         "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
@@ -36,6 +37,9 @@
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "test": "codecept run",
+        "test-coverage": "codecept run --coverage",
+        "test-coverage-html": "codecept run --coverage-html",
+        "test-coverage-xml": "codecept run --coverage-xml",
         "local-ci": [
             "@cs-fix",
             "@cs-check",

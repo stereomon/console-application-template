@@ -4,3 +4,5 @@ modules:
         - Asserts
         - Tests\Support\Helper\Symfony
         - Tests\Support\Helper\Console
+    config:
+        Asserts: ~

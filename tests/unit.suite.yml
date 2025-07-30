@@ -3,3 +3,5 @@ modules:
     enabled:
         - Asserts
         - Tests\Support\Helper\Symfony
+    config:
+        Asserts: ~
