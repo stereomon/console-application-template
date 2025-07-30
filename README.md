@@ -62,6 +62,8 @@ GitHub README.md: https://github.com/squizlabs/PHP_CodeSniffer
 
 - The application uses a vertical slice architecture.
 - Always use the AppFacade as dependecy in console commands.
+- Use the name of an object as variable name e.g. GreetingRequestTransfer must be used with $greetingRequestTransfer.
+- Use sprintf for concatinating strings.
 
 
 |- src/ - Contains all source files
@@ -93,7 +95,7 @@ Follows the SOLID principles which are
 - Each class must be fully tested with happy cases and unhappy cases.
 - Try adding Integration tests over Unit tests, we only want to cover a full path of execution through it s public facing entry point.
 - Only add Unit tests when a test setup is too complex to be done as Integration test.
-- Use Given When Then Syntax for testing.
+- [Important] Use Given When Then Syntax for test method names e.g. testGivenAValidNameOfAUserToGreetWhenIRunTheConsoleCommandThenAMessageIsDisplayedThatGreetsTheUser.
 - Use a Console Helper (Codeception Module) that uses the Symfony Console Tester and include this helper as Codeception Module into the test types configurations.
 - Make each class of a vertical slice public in the container for testing mode.
 - Try avoid using setUp or _before methods and setup each test case on its own.

@@ -1,0 +1,6 @@
+actor: IntegrationTester
+modules:
+    enabled:
+        - Asserts
+        - Tests\Support\Helper\Symfony
+        - Tests\Support\Helper\Console
