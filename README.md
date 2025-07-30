@@ -12,9 +12,18 @@ The application uses a vertical slice architecture.
 
 Inside of the .claude/commands/PRPs directory you will find a couple of useful slash commands which are documented on the [PRP Framework](https://github.com/Wirasm/PRPs-agentic-eng).
 
+### Symfony basics
+- Use ethe MicroKernel.
+- Use the Runtime component.
+- Provide configurations for development and testing.
+    - All dependenciees need to be public in test mode.
+
 ### Symfony Console
 
 Docs: https://symfony.com/doc/current/components/console.html
+
+- Provide an abstract class that has SUCCESS and FAILURE constants taht I can use to return in my console command.
+- Check the DTO for success and if not successful print out error messages to the user so he can act accordingly.
 
 ### Symfony Dependency Injection
 
@@ -53,9 +62,40 @@ Follows the SOLID principles which are
 
 ### Data Transfer Objects
 
-Use DataTransfer objects as input and output arguments to class methods.
+- Use DataTransfer objects as input and output arguments to class methods.
+- Objects must be suffixed with Transfer, do not use DTO.
+- Output DTOs must have a isSuccessful property that I can use to check if a process was succesful or not.
+- When a process is not successful the response DTO should also contain an array of ErrorTransfers that I can use.
 
 
 ### Testing
 
-Each class must be fully tested with happy cases and unhappy cases.
+- Each class must be fully tested with happy cases and unhappy cases.
+- Try adding Integration tests over Unit tests, we only want to cover a full path of execution through it s public facing entry point.
+- Only add Unit tests when a test setup is too complex to be done as Integration test.
+- Use Given When Then Syntax for testing.
+- Use a Console Helper (Codeception Module) that uses the Symfony Console Tester and include this helper as Codeception Module into the test types configurations.
+- Make each class of a vertical slice public in the container for testing mode.
+- Try avoid using setUp or _before methods and setup each test case on its own.
+- Add a Symfony Helper (Codeception Module) that has access to the container so I can get the dependencyies I neeed for testing out of the container without using "new" and include this helper as Codeception Module into the test types configurations.
+    - This helper must also have a set method to be able to use Mocks and using them when a dependcy of it is required in one of the classes under test.
+- Use the // Arrange // Act // Assert way of wrinting each test case.
+- Only ever use one assertion per test and it another test if needed.
+- Use "protected [type hint to the tester class] $tester;" and use this when getting objects to test from the container
+
+### Exceptions
+- Try to avoid exceptions and let the code always return a proper and helpful response to fix an issue.
+
+### Logging
+- Provide a logging mechanis that makes use of Monolog and gets injected where needed.
+
+### Quality assurance
+
+Provide composer scripts as following
+
+- phpstan; to run PHPStan.
+- cs-check; to check Code Style issues.
+- cs-fix; to fix Code Style issues.
+- test; to run codeception tests.
+- local-ci; to run all QA scripts.
+- Alweays ensure that every change is fully compatible and has no issues.
