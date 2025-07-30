@@ -12,6 +12,9 @@ The application uses a vertical slice architecture.
 
 Inside of the .claude/commands/PRPs directory you will find a couple of useful slash commands which are documented on the [PRP Framework](https://github.com/Wirasm/PRPs-agentic-eng).
 
+### Composer
+- Do not include packages that are already a required package of ither packages.
+
 ### Symfony basics
 - Use ethe MicroKernel.
 - Use the Runtime component.
@@ -24,6 +27,7 @@ Docs: https://symfony.com/doc/current/components/console.html
 
 - Provide an abstract class that has SUCCESS and FAILURE constants taht I can use to return in my console command.
 - Check the DTO for success and if not successful print out error messages to the user so he can act accordingly.
+- Add a "console" file into the "bin/" directory as it is standard for composer binaries.
 
 ### Symfony Dependency Injection
 
@@ -49,6 +53,7 @@ GitHub README.md: https://github.com/squizlabs/PHP_CodeSniffer
 |---- Commands - Contains all Console commands this application will provide
 |---- [Name of a vertical slice e.g. Customer]
 |-------- All to this vertical slice related files
+|----- AppFacade.php - This is. the only facade in this application do not add separate ones for the vertical slices.
 |- tests/ - Contains all test files and follows the default Codeception structure
 
 ### SOLID
