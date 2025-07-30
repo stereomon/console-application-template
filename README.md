@@ -6,7 +6,13 @@ This console-application-template makes use of Symfony's DependencyInjection so 
 
 This console-application-template also provides defaults for Claude and makes use of the [PRP Framework](https://github.com/Wirasm/PRPs-agentic-eng).
 
-The application uses a vertical slice architecture.
+### PHP
+
+- Use latest PHP 8.3+ features.
+- Typed property promotion.
+- Alway use type hints where possible.
+- Follow Clean Code standards.
+- Avoid if/else constructs and use early return.
 
 ### Claude
 
@@ -33,6 +39,11 @@ Docs: https://symfony.com/doc/current/components/console.html
 
 Docs: https://symfony.com/doc/current/components/dependency_injection.html
 
+- Use autowiring when applicable.
+- Avoid setting up dependencies in the container when autowiring is sufficient.
+- Use services.php for setup when needed.
+- Use services_test.php for testing purposes and make all class public to be able to overridden from the test Helper.
+
 ### Codeception
 
 Docs: Getting started Guide https://codeception.com/docs/GettingStarted
@@ -48,6 +59,8 @@ Docs: Getting started Guide https://phpstan.org/user-guide/getting-started
 GitHub README.md: https://github.com/squizlabs/PHP_CodeSniffer
 
 ## The basic architecture of this application
+
+The application uses a vertical slice architecture.
 
 |- src/ - Contains all source files
 |---- Commands - Contains all Console commands this application will provide
