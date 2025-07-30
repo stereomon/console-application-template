@@ -48,7 +48,7 @@ Docs: https://symfony.com/doc/current/components/dependency_injection.html
 
 Docs: Getting started Guide https://codeception.com/docs/GettingStarted
 
-Foxus will be on Unit and Integration tests.
+Focus will be on Unit and Integration tests.
 
 ### PHPStan
 
@@ -60,7 +60,9 @@ GitHub README.md: https://github.com/squizlabs/PHP_CodeSniffer
 
 ## The basic architecture of this application
 
-The application uses a vertical slice architecture.
+- The application uses a vertical slice architecture.
+- Always use the AppFacade as dependecy in console commands.
+
 
 |- src/ - Contains all source files
 |---- Commands - Contains all Console commands this application will provide
