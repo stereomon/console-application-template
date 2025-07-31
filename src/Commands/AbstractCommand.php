@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
+use App\AppFacade;
 use App\Shared\Transfer\ErrorTransfer;
 use App\Shared\Transfer\ResponseTransfer;
 use Symfony\Component\Console\Command\Command;
@@ -11,20 +12,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class AbstractCommand extends Command
 {
-    protected function handleResponse(ResponseTransfer $response, SymfonyStyle $io): int
-    {
-        if (!$response->isSuccessful()) {
-            $this->displayErrors($response->getErrors(), $io);
-            return static::FAILURE;
-        }
-
-        return static::SUCCESS;
+    public function __construct(
+        protected readonly AppFacade $appFacade
+    ) {
+        parent::__construct();
     }
 
     /**
      * @param ErrorTransfer[] $errors
      */
-    private function displayErrors(array $errors, SymfonyStyle $io): void
+    protected function displayErrors(array $errors, SymfonyStyle $io): void
     {
         $io->error('The following errors occurred:');
 

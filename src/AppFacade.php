@@ -7,7 +7,6 @@ namespace App;
 use App\Greeting\GreetingService;
 use App\Shared\Transfer\GreetingRequestTransfer;
 use App\Shared\Transfer\GreetingResponseTransfer;
-use Psr\Log\LoggerInterface;
 
 /**
  * Main application facade providing access to all vertical slice functionality.
@@ -16,14 +15,8 @@ use Psr\Log\LoggerInterface;
 class AppFacade
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
         private readonly GreetingService $greetingService
     ) {
-    }
-
-    public function getLogger(): LoggerInterface
-    {
-        return $this->logger;
     }
 
     public function greetUser(GreetingRequestTransfer $greetingRequestTransfer): GreetingResponseTransfer

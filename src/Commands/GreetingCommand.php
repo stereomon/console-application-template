@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
-use App\AppFacade;
 use App\Shared\Transfer\GreetingRequestTransfer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,12 +17,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class GreetingCommand extends AbstractCommand
 {
-    public function __construct(
-        private readonly AppFacade $appFacade
-    ) {
-        parent::__construct();
-    }
-
     protected function configure(): void
     {
         $this
@@ -34,22 +27,23 @@ class GreetingCommand extends AbstractCommand
     {
         $io = new SymfonyStyle($input, $output);
 
+        /** @phpstan-var string */
         $nameArgument = $input->getArgument('name');
-        if (!is_string($nameArgument)) {
-            $io->error('Invalid name argument provided');
-            return self::FAILURE;
-        }
 
         $greetingRequestTransfer = new GreetingRequestTransfer($nameArgument);
         $greetingResponseTransfer = $this->appFacade->greetUser($greetingRequestTransfer);
 
         if (!$greetingResponseTransfer->isSuccessful()) {
-            return $this->handleResponse($greetingResponseTransfer, $io);
+            $this->displayErrors($greetingResponseTransfer->getErrors(), $io);
+
+            return static::FAILURE;
         }
 
         $greetingMessage = $greetingResponseTransfer->getGreetingMessage();
+
         if ($greetingMessage === null) {
             $io->error('No greeting message was generated');
+
             return self::FAILURE;
         }
 
