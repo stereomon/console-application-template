@@ -22,10 +22,6 @@ return static function (ContainerConfigurator $container): void {
             '../src/Shared/Transfer/',
         ]);
 
-    // Make commands available
-    $services->load('App\\Commands\\', '../src/Commands/')
-        ->tag('console.command');
-
     // Configure Monolog for testing
     $services->set('monolog.handler.stderr', StreamHandler::class)
         ->args(['php://stderr', Logger::DEBUG]);

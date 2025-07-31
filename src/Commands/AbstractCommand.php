@@ -11,17 +11,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class AbstractCommand extends Command
 {
-    public const int SUCCESS = Command::SUCCESS;
-    public const int FAILURE = Command::FAILURE;
-
     protected function handleResponse(ResponseTransfer $response, SymfonyStyle $io): int
     {
         if (!$response->isSuccessful()) {
             $this->displayErrors($response->getErrors(), $io);
-            return self::FAILURE;
+            return static::FAILURE;
         }
 
-        return self::SUCCESS;
+        return static::SUCCESS;
     }
 
     /**

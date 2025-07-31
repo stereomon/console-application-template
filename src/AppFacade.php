@@ -26,8 +26,8 @@ class AppFacade
         return $this->logger;
     }
 
-    public function greetUser(GreetingRequestTransfer $request): GreetingResponseTransfer
+    public function greetUser(GreetingRequestTransfer $greetingRequestTransfer): GreetingResponseTransfer
     {
-        return $this->greetingService->greetUser($request);
+        return $this->greetingService->greetUser($greetingRequestTransfer);
     }
 }

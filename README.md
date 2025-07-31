@@ -110,6 +110,8 @@ Follows the SOLID principles which are
 
 ### Logging
 - Provide a logging mechanis that makes use of Monolog and gets injected where needed.
+- Only log issue cases for later validation.
+- Do not log infos about something was successful.
 
 ### Quality assurance
 

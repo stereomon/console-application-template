@@ -16,20 +16,6 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    public function getConsoleApplication(): Application
-    {
-        $this->boot();
-        $application = new Application('Console Application Template', '1.0.0');
-
-        // Add commands manually for now
-        $greetingCommand = $this->getContainer()->get(GreetingCommand::class);
-        if ($greetingCommand instanceof Command) {
-            $application->add($greetingCommand);
-        }
-
-        return $application;
-    }
-
     /**
      * @phpstan-ignore-next-line
      */
@@ -42,13 +28,5 @@ class Kernel extends BaseKernel
         if ($this->environment === 'test') {
             $container->import($configDir . '/services_test.php');
         }
-    }
-
-    /**
-     * @phpstan-ignore-next-line
-     */
-    private function configureRoutes(RoutingConfigurator $routes): void
-    {
-        // No routes needed for console application
     }
 }

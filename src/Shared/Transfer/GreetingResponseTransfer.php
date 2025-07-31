@@ -6,15 +6,12 @@ namespace App\Shared\Transfer;
 
 class GreetingResponseTransfer extends ResponseTransfer
 {
-    private ?string $greetingMessage = null;
-
     public function __construct(
         bool $isSuccessful = false,
-        ?string $greetingMessage = null,
+        private ?string $greetingMessage = null,
         array $errors = []
     ) {
         parent::__construct($isSuccessful, $errors);
-        $this->greetingMessage = $greetingMessage;
     }
 
     public function getGreetingMessage(): ?string
@@ -22,9 +19,10 @@ class GreetingResponseTransfer extends ResponseTransfer
         return $this->greetingMessage;
     }
 
-    public function setGreetingMessage(?string $greetingMessage): self
+    public function setGreetingMessage(?string $greetingMessage): static
     {
         $this->greetingMessage = $greetingMessage;
+
         return $this;
     }
 }
