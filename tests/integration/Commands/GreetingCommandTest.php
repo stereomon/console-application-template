@@ -7,7 +7,6 @@ namespace Tests\Integration\Commands;
 use App\Commands\GreetingCommand;
 use Codeception\Test\Unit;
 use IntegrationTester;
-use Symfony\Component\Console\Tester\CommandTester;
 
 class GreetingCommandTest extends Unit
 {
@@ -16,25 +15,23 @@ class GreetingCommandTest extends Unit
     public function testGivenAValidNameWhenIRunTheGreetingCommandThenAGreetingMessageIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => 'John']);
+        $exitCode = $greetingCommandTester->execute(['name' => 'John']);
 
         // Assert
         $this->assertEquals(0, $exitCode);
-        $this->assertStringContainsString('Hello John!', $commandTester->getDisplay());
+        $this->assertStringContainsString('Hello John!', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenAnEmptyNameWhenIRunTheGreetingCommandThenAnErrorMessageIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => '']);
+        $exitCode = $greetingCommandTester->execute(['name' => '']);
 
         // Assert
         $this->assertEquals(1, $exitCode);
@@ -43,37 +40,34 @@ class GreetingCommandTest extends Unit
     public function testGivenAnEmptyNameWhenIRunTheGreetingCommandThenTheErrorMessageIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => '']);
+        $greetingCommandTester->execute(['name' => '']);
 
         // Assert
-        $this->assertStringContainsString('The following errors occurred:', $commandTester->getDisplay());
+        $this->assertStringContainsString('The following errors occurred:', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenAnEmptyNameWhenIRunTheGreetingCommandThenTheSpecificErrorMessageIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => '']);
+        $greetingCommandTester->execute(['name' => '']);
 
         // Assert
-        $this->assertStringContainsString('Name cannot be empty', $commandTester->getDisplay());
+        $this->assertStringContainsString('Name cannot be empty', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenAWhitespaceOnlyNameWhenIRunTheGreetingCommandThenAnErrorMessageIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => '   ']);
+        $exitCode = $greetingCommandTester->execute(['name' => '   ']);
 
         // Assert
         $this->assertEquals(1, $exitCode);
@@ -82,24 +76,22 @@ class GreetingCommandTest extends Unit
     public function testGivenAWhitespaceOnlyNameWhenIRunTheGreetingCommandThenTheEmptyNameErrorIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => '   ']);
+        $greetingCommandTester->execute(['name' => '   ']);
 
         // Assert
-        $this->assertStringContainsString('Name cannot be empty', $commandTester->getDisplay());
+        $this->assertStringContainsString('Name cannot be empty', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenANameWithSpecialCharactersWhenIRunTheGreetingCommandThenAGreetingMessageIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => 'José-María']);
+        $exitCode = $greetingCommandTester->execute(['name' => 'José-María']);
 
         // Assert
         $this->assertEquals(0, $exitCode);
@@ -108,25 +100,23 @@ class GreetingCommandTest extends Unit
     public function testGivenANameWithSpecialCharactersWhenIRunTheGreetingCommandThenTheCorrectGreetingIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => 'José-María']);
+        $greetingCommandTester->execute(['name' => 'José-María']);
 
         // Assert
-        $this->assertStringContainsString('Hello José-María!', $commandTester->getDisplay());
+        $this->assertStringContainsString('Hello José-María!', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenAVeryLongNameWhenIRunTheGreetingCommandThenAGreetingMessageIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
         $longName = str_repeat('A', 100);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => $longName]);
+        $exitCode = $greetingCommandTester->execute(['name' => $longName]);
 
         // Assert
         $this->assertEquals(0, $exitCode);
@@ -135,25 +125,23 @@ class GreetingCommandTest extends Unit
     public function testGivenAVeryLongNameWhenIRunTheGreetingCommandThenTheCorrectGreetingIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
         $longName = str_repeat('A', 100);
 
         // Act
-        $commandTester->execute(['name' => $longName]);
+        $greetingCommandTester->execute(['name' => $longName]);
 
         // Assert
-        $this->assertStringContainsString("Hello {$longName}!", $commandTester->getDisplay());
+        $this->assertStringContainsString("Hello {$longName}!", $greetingCommandTester->getDisplay());
     }
 
     public function testGivenANameWithNumbersWhenIRunTheGreetingCommandThenAGreetingMessageIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => 'John123']);
+        $exitCode = $greetingCommandTester->execute(['name' => 'John123']);
 
         // Assert
         $this->assertEquals(0, $exitCode);
@@ -162,24 +150,22 @@ class GreetingCommandTest extends Unit
     public function testGivenANameWithNumbersWhenIRunTheGreetingCommandThenTheCorrectGreetingIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => 'John123']);
+        $greetingCommandTester->execute(['name' => 'John123']);
 
         // Assert
-        $this->assertStringContainsString('Hello John123!', $commandTester->getDisplay());
+        $this->assertStringContainsString('Hello John123!', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenANameWithTabsAndSpacesWhenIRunTheGreetingCommandThenAnErrorIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => "\t\n  \r"]);
+        $exitCode = $greetingCommandTester->execute(['name' => "\t\n  \r"]);
 
         // Assert
         $this->assertEquals(1, $exitCode);
@@ -188,24 +174,22 @@ class GreetingCommandTest extends Unit
     public function testGivenANameWithTabsAndSpacesWhenIRunTheGreetingCommandThenTheEmptyNameErrorIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => "\t\n  \r"]);
+        $greetingCommandTester->execute(['name' => "\t\n  \r"]);
 
         // Assert
-        $this->assertStringContainsString('Name cannot be empty', $commandTester->getDisplay());
+        $this->assertStringContainsString('Name cannot be empty', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenANameWithLeadingAndTrailingSpacesWhenIRunTheGreetingCommandThenAGreetingIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => '  John  ']);
+        $exitCode = $greetingCommandTester->execute(['name' => '  John  ']);
 
         // Assert
         $this->assertEquals(0, $exitCode);
@@ -214,24 +198,22 @@ class GreetingCommandTest extends Unit
     public function testGivenANameWithLeadingTrailingSpacesWhenIRunCommandThenCorrectGreetingIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => '  John  ']);
+        $greetingCommandTester->execute(['name' => '  John  ']);
 
         // Assert
-        $this->assertStringContainsString('Hello   John  !', $commandTester->getDisplay());
+        $this->assertStringContainsString('Hello   John  !', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenANameWithUnicodeCharactersWhenIRunTheGreetingCommandThenAGreetingIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => '田中太郎']);
+        $exitCode = $greetingCommandTester->execute(['name' => '田中太郎']);
 
         // Assert
         $this->assertEquals(0, $exitCode);
@@ -240,24 +222,22 @@ class GreetingCommandTest extends Unit
     public function testGivenANameWithUnicodeCharactersWhenIRunTheGreetingCommandThenTheCorrectGreetingIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => '田中太郎']);
+        $greetingCommandTester->execute(['name' => '田中太郎']);
 
         // Assert
-        $this->assertStringContainsString('Hello 田中太郎!', $commandTester->getDisplay());
+        $this->assertStringContainsString('Hello 田中太郎!', $greetingCommandTester->getDisplay());
     }
 
     public function testGivenANameWithEmojiWhenIRunTheGreetingCommandThenAGreetingIsDisplayed(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $exitCode = $commandTester->execute(['name' => 'John😊']);
+        $exitCode = $greetingCommandTester->execute(['name' => 'John😊']);
 
         // Assert
         $this->assertEquals(0, $exitCode);
@@ -266,13 +246,12 @@ class GreetingCommandTest extends Unit
     public function testGivenANameWithEmojiWhenIRunTheGreetingCommandThenTheCorrectGreetingIsShown(): void
     {
         // Arrange
-        $greetingCommand = $this->tester->get(GreetingCommand::class);
-        $commandTester = new CommandTester($greetingCommand);
+        $greetingCommandTester = $this->tester->getCommandTester(GreetingCommand::class);
 
         // Act
-        $commandTester->execute(['name' => 'John😊']);
+        $greetingCommandTester->execute(['name' => 'John😊']);
 
         // Assert
-        $this->assertStringContainsString('Hello John😊!', $commandTester->getDisplay());
+        $this->assertStringContainsString('Hello John😊!', $greetingCommandTester->getDisplay());
     }
 }

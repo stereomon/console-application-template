@@ -18,4 +18,15 @@ class Console extends Module
         
         return new CommandTester($command);
     }
+
+    public function getCommandTester(string|Command $command): CommandTester
+    {
+        if (is_string($command)) {
+            /** @var \Tests\Support\Helper\Symfony $symfonyHelper */
+            $symfonyHelper = $this->getModule('Tests\Support\Helper\Symfony');
+            $command = $symfonyHelper->get($command);
+        }
+
+        return $this->createCommandTester($command);
+    }
 }
