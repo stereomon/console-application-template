@@ -1,125 +1,36 @@
-# This is console-application-template that can be used to build "Pop Up Applications" when needed. It provides the basic structure including CodeStyle, PHPStan, and Codeception as the testing Framework.
+# Console Application Template
 
-The basic infrastucture is a Symfony Console Application which can be enriched with commands as needed. You can re-use this for single console applications or add more and more console commands to it when you see the need. It's up to you.
+A Symfony Console application template using vertical slice architecture, designed for building "Pop Up Applications" with best practices built-in.
 
-This console-application-template makes use of Symfony's DependencyInjection so you don't need to wire everything on your own.
+## Features
 
-This console-application-template also provides defaults for Claude and makes use of the [PRP Framework](https://github.com/Wirasm/PRPs-agentic-eng).
+- Symfony Console with MicroKernel and Runtime component
+- Vertical slice architecture with dependency injection
+- Comprehensive testing setup (Codeception)
+- Code quality tools (PHPStan, PHP_CodeSniffer)
+- Integration with [PRP Framework](https://github.com/Wirasm/PRPs-agentic-eng)
 
-### PHP
+## Quick Start
 
-- Use latest PHP 8.3+ features.
-- Typed property promotion.
-- Alway use type hints where possible.
-- Follow Clean Code standards.
-- Avoid if/else constructs and use early return.
+```bash
+# Install dependencies
+composer install
 
-### Claude
+# Run example command
+./bin/console app:greet YourName
 
-Inside of the .claude/commands/PRPs directory you will find a couple of useful slash commands which are documented on the [PRP Framework](https://github.com/Wirasm/PRPs-agentic-eng).
+# Run quality assurance
+composer run local-ci
+```
 
-### Composer
-- Do not include packages that are already a required package of ither packages.
+## Development
 
-### Symfony basics
-- Use ethe MicroKernel.
-- Use the Runtime component.
-- Provide configurations for development and testing.
-    - All dependenciees need to be public in test mode.
+For detailed development guidelines, architecture patterns, and coding standards, see [CLAUDE.md](CLAUDE.md).
 
-### Symfony Console
+## Quality Assurance Commands
 
-Docs: https://symfony.com/doc/current/components/console.html
-
-- Provide an abstract class that has SUCCESS and FAILURE constants taht I can use to return in my console command.
-- Check the DTO for success and if not successful print out error messages to the user so he can act accordingly.
-- Add a "console" file into the "bin/" directory as it is standard for composer binaries.
-
-### Symfony Dependency Injection
-
-Docs: https://symfony.com/doc/current/components/dependency_injection.html
-
-- Use autowiring when applicable.
-- Avoid setting up dependencies in the container when autowiring is sufficient.
-- Use services.php for setup when needed.
-- Use services_test.php for testing purposes and make all class public to be able to overridden from the test Helper.
-
-### Codeception
-
-Docs: Getting started Guide https://codeception.com/docs/GettingStarted
-
-Focus will be on Unit and Integration tests.
-
-### PHPStan
-
-Docs: Getting started Guide https://phpstan.org/user-guide/getting-started
-
-### Code Style Sniffer
-
-GitHub README.md: https://github.com/squizlabs/PHP_CodeSniffer
-
-## The basic architecture of this application
-
-- The application uses a vertical slice architecture.
-- Always use the AppFacade as dependecy in console commands.
-- Use the name of an object as variable name e.g. GreetingRequestTransfer must be used with $greetingRequestTransfer.
-- Use sprintf for concatinating strings.
-
-
-|- src/ - Contains all source files
-|---- Commands - Contains all Console commands this application will provide
-|---- [Name of a vertical slice e.g. Customer]
-|-------- All to this vertical slice related files
-|----- AppFacade.php - This is. the only facade in this application do not add separate ones for the vertical slices.
-|- tests/ - Contains all test files and follows the default Codeception structure
-
-### SOLID
-
-Follows the SOLID principles which are
-- Single Responsibility
-- Open / Closed
-- Liskov Substitution
-- Interface segregation
-- Dependency Inversion
-
-### Data Transfer Objects
-
-- Use DataTransfer objects as input and output arguments to class methods.
-- Objects must be suffixed with Transfer, do not use DTO.
-- Output DTOs must have a isSuccessful property that I can use to check if a process was succesful or not.
-- When a process is not successful the response DTO should also contain an array of ErrorTransfers that I can use.
-
-
-### Testing
-
-- Each class must be fully tested with happy cases and unhappy cases.
-- Try adding Integration tests over Unit tests, we only want to cover a full path of execution through it s public facing entry point.
-- Only add Unit tests when a test setup is too complex to be done as Integration test.
-- [Important] Use Given When Then Syntax for test method names e.g. testGivenAValidNameOfAUserToGreetWhenIRunTheConsoleCommandThenAMessageIsDisplayedThatGreetsTheUser.
-- Use a Console Helper (Codeception Module) that uses the Symfony Console Tester and include this helper as Codeception Module into the test types configurations.
-- Make each class of a vertical slice public in the container for testing mode.
-- Try avoid using setUp or _before methods and setup each test case on its own.
-- Add a Symfony Helper (Codeception Module) that has access to the container so I can get the dependencyies I neeed for testing out of the container without using "new" and include this helper as Codeception Module into the test types configurations.
-    - This helper must also have a set method to be able to use Mocks and using them when a dependcy of it is required in one of the classes under test.
-- Use the // Arrange // Act // Assert way of wrinting each test case.
-- Only ever use one assertion per test and it another test if needed.
-- Use "protected [type hint to the tester class] $tester;" and use this when getting objects to test from the container
-
-### Exceptions
-- Try to avoid exceptions and let the code always return a proper and helpful response to fix an issue.
-
-### Logging
-- Provide a logging mechanis that makes use of Monolog and gets injected where needed.
-- Only log issue cases for later validation.
-- Do not log infos about something was successful.
-
-### Quality assurance
-
-Provide composer scripts as following
-
-- phpstan; to run PHPStan.
-- cs-check; to check Code Style issues.
-- cs-fix; to fix Code Style issues.
-- test; to run codeception tests.
-- local-ci; to run all QA scripts.
-- Alweays ensure that every change is fully compatible and has no issues.
+- `composer run phpstan` - Static analysis
+- `composer run cs-check` - Check code style
+- `composer run cs-fix` - Fix code style
+- `composer run test` - Run tests
+- `composer run local-ci` - Run all QA tools

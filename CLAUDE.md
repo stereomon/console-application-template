@@ -79,3 +79,7 @@ All data transfer objects follow these conventions:
 - Follow Clean Code principles with early returns instead of if/else constructs
 - Use `sprintf()` for string concatenation
 - Monolog integration for logging (errors only, not success messages)
+- Add a new line before and after any PHP function call like if, foreach
+- Do not use if/else constructs
+- Always have a max 2 depth indentation level of methods
+-
