@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+/**
+ * Update the file name to your needs to prevent naming conflicts when using multiple Symfony applications.
+ * 
+ * This file serves as the entry point for the Symfony console application.
+ * It initializes the Symfony kernel and returns a new Application instance.
+ */
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
