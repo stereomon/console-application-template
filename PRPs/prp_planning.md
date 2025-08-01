@@ -271,8 +271,8 @@ grep -E "(TODO|TBD|FIXME)" generated_prd.md
 # Check diagram syntax
 mermaid-cli -i generated_prd.md -o prd_diagrams.pdf
 
-# Validate structure
-python validate_prd_structure.py generated_prd.md
+# Validate structure  
+php bin/console app:validate-prd generated_prd.md
 ```
 
 ## Anti-Patterns to Avoid

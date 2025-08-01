@@ -51,10 +51,10 @@ Using PRPs/templates/prp_base.md as template:
 
 ```bash
 # Syntax/Style
-ruff check --fix && mypy .
+composer cs-fix && composer phpstan
 
 # Unit Tests
-uv run pytest tests/ -v
+composer test
 
 ```
 

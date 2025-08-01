@@ -82,4 +82,4 @@ All data transfer objects follow these conventions:
 - Add a new line before and after any PHP function call like if, foreach
 - Do not use if/else constructs
 - Always have a max 2 depth indentation level of methods
--
+- Avoid double-quotes where possible

@@ -38,7 +38,7 @@ context:
       focus: [specific methods]
 
   patterns:
-    - file: existing/example.py
+    - file: existing/Example.php
       copy: [pattern to follow]
 
   gotchas:

@@ -35,7 +35,7 @@ context:
       focus: [specific method/section]
 
   patterns:
-    - file: existing/example.py
+    - file: existing/Example.php
       copy: [pattern name]
 
   gotchas:
@@ -48,82 +48,83 @@ context:
 ### Setup Tasks
 
 ```
-READ src/config/settings.py:
+READ config/services.php:
   - UNDERSTAND: Current configuration structure
   - FIND: Model configuration pattern
   - NOTE: Config uses pydantic BaseSettings
 
-READ tests/test_models.py:
+READ tests/unit/ModelsTest.php:
   - UNDERSTAND: Test pattern for models
   - FIND: Fixture setup approach
-  - NOTE: Uses pytest-asyncio for async tests
+  - NOTE: Uses Codeception for unit and integration tests
 ```
 
 ### Implementation Tasks
 
 ````
 UPDATE path/to/file:
-  - FIND: MODEL_REGISTRY = {
-  - ADD: "new-model": NewModelClass,
-  - VALIDATE: python -c "from path/to/file import MODEL_REGISTRY; assert 'new-model' in MODEL_REGISTRY"
-  - IF_FAIL: Check import statement for NewModelClass
+  - FIND: $serviceRegistry = [
+  - ADD: "new-service" => NewServiceClass::class,
+  - VALIDATE: php -r "require 'vendor/autoload.php'; $registry = require 'path/to/file'; assert(array_key_exists('new-service', $registry));"
+  - IF_FAIL: Check namespace and class name for NewServiceClass
 
 CREATE path/to/file:
   - COPY_PATTERN: path/to/other/file
   - IMPLEMENT:
    - [Detailed description of what needs to be implemented based on codebase intelligence]
-  - VALIDATE: uv run pytest path/to/file -v
+  - VALIDATE: composer test path/to/file
 
 UPDATE path/to/file:
-  - FIND: app.include_router(
+  - FIND: $container->register(
   - ADD_AFTER:
-    ```python
-    from .endpoints import new_model_router
-    app.include_router(new_model_router, prefix="/api/v1")
+    ```php
+    use App\Commands\NewModelCommand;
+    $container->register(NewModelCommand::class)
+        ->addTag('console.command');
     ```
-  - VALIDATE: uv run pytest path/to/file -v
+  - VALIDATE: composer test path/to/file
 ````
 
 ## Validation Checkpoints
 
 ```
 CHECKPOINT syntax:
-  - RUN: ruff check && mypy .
+  - RUN: composer cs-fix && composer phpstan
   - FIX: Any reported issues
   - CONTINUE: Only when clean
 
 CHECKPOINT tests:
-  - RUN: uv run pytest path/to/file -v
+  - RUN: composer test path/to/file
   - REQUIRE: All passing
-  - DEBUG: uv run pytest -vvs path/to/file/failing_test.py
+  - DEBUG: vendor/bin/codecept run unit path/to/file/FailingTest.php --debug
   - CONTINUE: Only when all green
 
 CHECKPOINT integration:
-  - START: docker-compose up -d
-  - RUN: ./scripts/integration_test.sh
+  - START: php bin/console cache:clear --env=test
+  - RUN: composer test
   - EXPECT: "All tests passed"
-  - CLEANUP: docker-compose down
+  - CLEANUP: php bin/console cache:clear
 ```
 
 ## Debug Patterns
 
 ```
-DEBUG import_error:
+DEBUG autoload_error:
   - CHECK: File exists at path
-  - CHECK: __init__.py in all parent dirs
-  - TRY: python -c "import path/to/file"
-  - FIX: Add to PYTHONPATH or fix import
+  - CHECK: Namespace matches directory structure
+  - TRY: php -r "require 'vendor/autoload.php'; new App\Path\To\Class();"
+  - FIX: Run composer dump-autoload or fix namespace
 
 DEBUG test_failure:
-  - RUN: uv run pytest -vvs path/to/test.py::test_name
-  - ADD: print(f"Debug: {variable}")
+  - RUN: vendor/bin/codecept run unit path/to/test.php::testName --debug
+  - ADD: $this->debug("Debug: " . print_r($variable, true));
   - IDENTIFY: Assertion vs implementation issue
   - FIX: Update test or fix code
 
-DEBUG api_error:
-  - CHECK: Server running (ps aux | grep uvicorn)
-  - TEST: curl http://localhost:8000/health
-  - READ: Server logs for stack trace
+DEBUG command_error:
+  - CHECK: Command registered in services.php
+  - TEST: php bin/console list
+  - READ: Console output for error details
   - FIX: Based on specific error
 ```
 
